@@ -1,17 +1,13 @@
-Name: Build Android APK
+name: Build Android APK
 
 on:
   push:
     branches: [ "main" ]
-  workflow_dispatch:   # позволяет запускать вручную кнопкой "Run workflow"
-
-permissions:
-  contents: read
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
 
     steps:
       - name: Checkout code
@@ -40,11 +36,3 @@ jobs:
           name: zokogram-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
-
-      - name: Upload build reports on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-reports
-          path: "**/build/reports"
-          if-no-files-found: ignore
